@@ -2,8 +2,8 @@ import json
 import os
 import requests
 
+from datetime import timezone
 from dateutil.parser import parse
-
 from flask import Flask
 from flask import request
 from flask import make_response
