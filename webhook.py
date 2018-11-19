@@ -25,9 +25,9 @@ def makeResponse(req):
     parameters = result.get('parameters')
     city = parameters.get('geo-city')
     date = parameters.get('date')
-    r = request.json.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&appid=b6907d289e10d714a6e88b30761fae22')
-    json_object = r
-    weather = json_object('list')
+    r = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&appid=b6907d289e10d714a6e88b30761fae22')
+    json_object = r.json()
+    weather = json_object['list']
     for i in range(0, len(weather)):
         if date in weather[i]['dt_txt']:
             condition = weather[i]['weather'][0]['description']
@@ -40,6 +40,6 @@ def makeResponse(req):
     }
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', '5000'))
-    print('Starting app on port %d', port)
+    port = int(os.getenv('PORT', 5000))
+    print('Starting app on port %d' % port)
     app.run(debug=False, port = port, host="0.0.0.0")
