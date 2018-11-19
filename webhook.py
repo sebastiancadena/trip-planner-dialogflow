@@ -26,12 +26,12 @@ def makeResponse(req):
     result = req.get('queryResult')
     parameters = result.get('parameters')
     city = parameters.get('geo-city')
-    date = parse(parameters.get('date')).timestamp()
+    date = parse(parameters.get('date')).strftime("%Y-%m-%d %H:%M:%S")
     r = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&appid=06f070197b1f60e55231f8c46658d077')
     json_object = r.json()
     weather = json_object['list']
     for i in range(0, len(weather)):
-        if date in weather[i]['dt']:
+        if date in weather[i]['dt_txt']:
             condition = weather[i]['weather'][0]['description']
             break
     speech = 'The forecast for '+city+ ' for '+date+ ' is ' + condition
