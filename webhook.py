@@ -2,6 +2,8 @@ import json
 import os
 import requests
 
+from dateutil.parser import parse
+
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -24,7 +26,7 @@ def makeResponse(req):
     result = req.get('queryResult')
     parameters = result.get('parameters')
     city = parameters.get('geo-city')
-    date = parameters.get('date')
+    date = parse(parameters.get('date')).timestamp()
     r = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&appid=06f070197b1f60e55231f8c46658d077')
     json_object = r.json()
     weather = json_object['list']
