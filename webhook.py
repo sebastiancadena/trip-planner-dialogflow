@@ -26,7 +26,7 @@ def makeResponse(req):
     result = req.get('queryResult')
     parameters = result.get('parameters')
     city = parameters.get('geo-city')
-    date = parse(parameters.get('date')).strftime("%Y-%m-%d %H:%M:%S")
+    date = parse(parameters.get('date')).replace(tzinfo=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     r = requests.get('http://api.openweathermap.org/data/2.5/forecast?q='+city+'&appid=06f070197b1f60e55231f8c46658d077')
     json_object = r.json()
     weather = json_object['list']
@@ -36,8 +36,7 @@ def makeResponse(req):
             break
     speech = 'The forecast for '+city+ ' for '+date+ ' is ' + condition
     return {
-        "speech": speech,
-        "displayText": speech,
+        "fulfillmentText": speech,
         "source": "dialogflow-weather-webhook"
     }
 
